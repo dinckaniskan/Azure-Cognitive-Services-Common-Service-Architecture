@@ -14,7 +14,8 @@ import time
 async def main(req: func.HttpRequest, starter: str) -> func.HttpResponse:
     client = df.DurableOrchestrationClient(starter)
     content = req.get_json()
-    instance_id = await client.start_new(req.route_params["functionName"], None, content['url'])
+    logging.info(f"{content}")
+    instance_id = await client.start_new(req.route_params["functionName"], None, content)
 
     # time.sleep(10)
 

@@ -11,19 +11,37 @@ import logging
 
 def main(extractedValues: dict) -> bool:
 
-    valid_abns = ['345987652']
+    valid_abns = ['998877665']
     
+    employee = extractedValues['Employee']
+    business = extractedValues['Business Name']
+    abn = extractedValues['ABN']
+    period = extractedValues['Period']
+    amount = extractedValues['Amount']
     
-    abn = extractedValues['abn']
-    period = extractedValues['period']
-    amount = extractedValues['amount']
-    
+    logging.info(employee)
+    logging.info(business)
     logging.info(abn)
     logging.info(period)
     logging.info(amount)
 
-    if valid_abns.__contains__(abn):
-        return True
-    else:
-        logging.info('BAD FILE DETECTED, ABN NOT VALID')
-        return False
+    message = "Success."
+    isDocumentValid = True
+    
+    if len(abn) != 9 and isDocumentValid:
+        message = f'ERROR: BAD ABN. ABN is not 9 characters. Found {len(abn)}'
+        isDocumentValid = False
+
+        logging.info(message)
+        
+
+    if (not valid_abns.__contains__(abn)) and isDocumentValid:           
+        message = 'ERROR: BAD ABN. ABN not found in valid ABNs list.'
+        isDocumentValid = False
+        logging.info(message)
+        
+
+    return {
+            "outcome": message,
+            "isDocumentValid": isDocumentValid
+        }

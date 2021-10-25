@@ -6,3 +6,5 @@ azure-functions
 azure-functions-durable
 azure-ai-formrecognizer==3.2.0b1
 azure-core
+
+pdfminer
