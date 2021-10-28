@@ -31,7 +31,7 @@ HTTP POST https://ocrdurablesample.azurewebsites.net/api/orchestrators/xxxxxxxxx
 {
   "name": "Orchestrator",
   "instanceId": "f6bdee37fc1c4b4da59f172f34e5aa",
-  "status": "in progress"
+  "runtimeStatus": "in progress"
 }
 ```
 ### Request - polling for results (completion)
