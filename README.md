@@ -74,6 +74,19 @@ HTTP POST https://ocrdurablesample.azurewebsites.net/api/orchestrators/xxxxxxxxx
 ```
 # Getting started - developers
 
+## Deploy Azure resources
+Linux example deploy script
+deploys to a resource group named servicesexample1 also see [Deploy Bicep using CloudShell](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-cloud-shell?tabs=azure-cli)
+
+```
+az login
+az account set <my account>
+./bicep/deploy.sh
+```
+
+## Deploy from GitHub using GitHub Actions
+//todo
+
 ## Debug Functions Locally
 
 Install VSCode
