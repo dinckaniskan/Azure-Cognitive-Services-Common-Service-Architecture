@@ -1,5 +1,6 @@
 # Azure-Cognitive-Services-workflow-with-Durable-Functions
 Azure Cognitive Services workflow with Durable Functions
+Whilst the service samples here are related to Australian🦘 specific payslips with feature such as an Australian [ABN](https://www.abr.gov.au/business-super-funds-charities/applying-abn) the services could work for any country
 
 # Service definitions
 Services may be defines as follows. (only Payslip implemented here yet)
