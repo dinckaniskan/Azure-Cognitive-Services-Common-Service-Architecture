@@ -52,10 +52,7 @@ selections = [
     {
         'name': 'Multiple Paylips - Multiple files with single payslip',
         'req_body': [
-            {
-                "url": "https://deseaisq.blob.core.windows.net/filedrop/valid2.pdf?sp=r&st=2021-10-19T22:53:46Z&se=2022-10-20T06:53:46Z&spr=https&sv=2020-08-04&sr=c&sig=O%2Fypezh%2BvnVbaOEiSK1UtLEb9dyjsDecSOvg29VUdEA%3D",
-                "pages": 1
-            },
+           ,
             {
                 'url': 'https://deseaisq.blob.core.windows.net/filedrop/invalid_abn_madeup.pdf?sp=r&st=2021-10-19T22:53:46Z&se=2022-10-20T06:53:46Z&spr=https&sv=2020-08-04&sr=c&sig=O%2Fypezh%2BvnVbaOEiSK1UtLEb9dyjsDecSOvg29VUdEA%3D',
                 "pages": 1
