@@ -1,5 +1,8 @@
 # Azure-Cognitive-Services-workflow-with-Durable-Functions
 Azure Cognitive Services workflow with Durable Functions
+
+Demonstration code to show how to use Azure Durable funtions either from an HTTP request or triggered from an event or service bus topic
+
 Whilst the service samples here are related to Australian🦘 specific payslips with feature such as an Australian [ABN](https://www.abr.gov.au/business-super-funds-charities/applying-abn) the services could work for any country
 
 # Service definitions
