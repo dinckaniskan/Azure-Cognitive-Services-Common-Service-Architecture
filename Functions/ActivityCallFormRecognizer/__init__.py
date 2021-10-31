@@ -34,23 +34,35 @@ def main(formUrl: list) -> str:
     print(result.documents)
 
     for idx, document in enumerate(result.documents):
+        
+        logging.info(document)
+
         logging.info("--------Analyzing document #{}--------".format(idx + 1))
         logging.info("Document has type {}".format(document.doc_type))
         logging.info("Document has confidence {}".format(document.confidence))
         logging.info("Document was analyzed by model with ID {}".format(result.model_id))
                 
-        docitems = {}
+        docitems = {
+            'Business Name': '', 
+            'ABN': '',             
+            'Period': {
+                'From': '',                 
+                'To': ''
+            },
+            'Employee': '', 'Amount': ''            
+        }
+
         for name, field in document.fields.items():
             field_value = field.value if field.value else field.content
             logging.info(f"......found field {name} of type '{field.value_type}' with value '{field_value}' and with confidence {field.confidence}")
 
             # Handle period
-            if name == 'Period':
-                item = field_value.split(' to ')
-                docitems[name] = {
-                    'From': item[0],
-                    'To': item[1]
-                    }
+            if name == 'Period.From':                
+                docitems['Period']['From'] = field_value
+                                    
+            elif name == 'Period.To':                
+                docitems['Period']['To'] = field_value
+
             else:
                 docitems[name] = field_value
 
