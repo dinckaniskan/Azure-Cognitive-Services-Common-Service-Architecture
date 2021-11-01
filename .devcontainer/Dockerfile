@@ -25,6 +25,9 @@ RUN npm i -g azure-functions-core-tools@3 --unsafe-perm true
 #     && sudo apt-get update \
 #     && sudo apt-get install azure-functions-core-tools-3
 
+#Nuget
+RUN sudo apt install nuget
+
 #Setup Azurite Storage Emulator
 RUN npm install -g azurite \
     && azurite &
