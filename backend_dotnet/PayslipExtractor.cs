@@ -7,31 +7,29 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 
+
 namespace Contoso.Example
 {
     public static class PayslipExtractor
     {
         [FunctionName("PayslipExtractor")]
-        public static async Task<List<string>> RunOrchestrator(
+        public static async Task<string> RunOrchestrator(
             [OrchestrationTrigger] IDurableOrchestrationContext context)
         {
-            var outputs = new List<string>();
+            // var outputs = new List<string>();
 
-            // Replace "hello" with the name of your Durable Activity Function.
-            outputs.Add(await context.CallActivityAsync<string>("PayslipExtractor_Hello", "Tokyo"));
-            outputs.Add(await context.CallActivityAsync<string>("PayslipExtractor_Hello", "Seattle"));
-            outputs.Add(await context.CallActivityAsync<string>("PayslipExtractor_Hello", "London"));
+            // // Replace "hello" with the name of your Durable Activity Function.
+            // outputs.Add(await context.CallActivityAsync<string>("CallFormRecognizer", "Tokyo"));
+            // outputs.Add(await context.CallActivityAsync<string>("CallFormRecognizer", "Seattle"));
+            // outputs.Add(await context.CallActivityAsync<string>("CallFormRecognizer", "London"));
+
+            var x = await context.CallActivityAsync<string>("CallFormRecognizer", "Tokyo");
 
             // returns ["Hello Tokyo!", "Hello Seattle!", "Hello London!"]
-            return outputs;
+            return x;
         }
 
-        [FunctionName("PayslipExtractor_Hello")]
-        public static string SayHello([ActivityTrigger] string name, ILogger log)
-        {
-            log.LogInformation($"Saying hello to {name}.");
-            return $"Hello {name}!";
-        }
+
 
         [FunctionName("PayslipExtractor_HttpStart")]
         public static async Task<HttpResponseMessage> HttpStart(
@@ -46,5 +44,18 @@ namespace Contoso.Example
 
             return starter.CreateCheckStatusResponse(req, instanceId);
         }
+
+
+
+        // // Activities
+        // [FunctionName("PayslipExtractor_Hello")]
+        // public static string SayHello([ActivityTrigger] string name, ILogger log)
+        // {
+        //     log.LogInformation($"Saying hello to {name}.");
+        //     return $"Hello {name}!";
+        // }
+
+
+
     }
 }
