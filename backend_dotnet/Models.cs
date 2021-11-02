@@ -1,25 +1,43 @@
+using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-
-using System;
+using Newtonsoft.Json.Linq;
 
 namespace Contoso.Example {
 
-    public class Extract {
 
-        public Extract(){
+    public class OcrRequest {
+        [JsonPropertyName("documents")]
+        public List<Document> Documents { get; set; }
 
+    }
+
+    public class Document {
+        public string url { get; set; }
+        public string pages { get; set; }
+    }
+
+
+
+    public class ResultsCollection {
+
+        public ResultsCollection(){
+            this.Extracts = new List<Extract>();
         }
 
-        // public Extract(string business, string abn, string employee, string periodFrom, string periodTo, string amount, string extactResult) {
-        //     this.Business = business;
-        //     this.ABN = abn;
-        //     this.Employee = employee;
-        //     this.PeriodFrom = periodFrom;
-        //     this.PeriodTo = periodTo;
-        //     this.Amount = StripSpecialChars(amount);
-        //     this.ExtactResult = extactResult;
-        // }
+        public List<Extract> Extracts { get; set; }
+
+
+        public JObject AsJson(){
+            return JObject.Parse(JsonSerializer.Serialize(this));
+        }  
+    }
+
+
+
+
+    public class Extract {
 
         private string _business;
         private string _abn;
@@ -111,11 +129,7 @@ namespace Contoso.Example {
                 this._periodTo = parsed;
         }
 
-        public string AsJson(){
-            return JsonSerializer.Serialize(this);
-        }        
-
-
+   
         
         private static string StripSpecialChars(string value) {
             

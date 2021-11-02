@@ -7,28 +7,34 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using System;
 
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Contoso.Example
 {
     public static class PayslipExtractor
     {
-        // public static ILogger log = new ILogger;
 
         [FunctionName("PayslipExtractorWorkflow")]
-        public static async Task<string> RunOrchestrator(
+        public static async Task<JObject> RunOrchestrator(
             [OrchestrationTrigger] IDurableOrchestrationContext context,
             ILogger log)            
         {
 
-            var inputs = context.GetInput<Dictionary<string,string>>();
+            var inputs = context.GetInput<OcrRequest>();
  
-            var extract = await context.CallActivityAsync<Extract>("CallOcrCustomModel", inputs);
-            var validated_extract = await context.CallActivityAsync<Extract>("ValidateExtract", extract);
+            var results = new ResultsCollection();
 
-            log.LogInformation(validated_extract.AsJson());
-            
-            return validated_extract.AsJson();
+            foreach(Document doc in inputs.Documents) {
+                var extract = await context.CallActivityAsync<Extract>("CallOcrCustomModel", doc);
+                var validated_extract = await context.CallActivityAsync<Extract>("ValidateExtract", extract);
+
+                results.Extracts.Add(validated_extract);
+            }
+                        
+            return results.AsJson();
         }
 
 
@@ -41,16 +47,10 @@ namespace Contoso.Example
         {
 
             // Collect input values from request
-            string body = await req.Content.ReadAsStringAsync();
-            dynamic inputAttributes = JObject.Parse(body);
- 
-            // Parse dictionary of inputs
-            Dictionary<string,string> inputs = new Dictionary<string,string>() {
-                {"url", (string)inputAttributes.url},
-                {"pages", (string)inputAttributes.pages}
-            };
-                
-
+            string body = await req.Content.ReadAsStringAsync();            
+            
+            var inputs = JsonSerializer.Deserialize<OcrRequest>(body);
+                            
             // Function input comes from the request content.
             string instanceId = await starter.StartNewAsync("PayslipExtractorWorkflow", inputs);
 

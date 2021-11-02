@@ -34,19 +34,17 @@ namespace Contoso.Example
 
 
         [FunctionName("CallOcrCustomModel")]
-        public static async Task<Extract> CallOcrCustomModel([ActivityTrigger] Dictionary<string,string> inputs, ILogger log)
-        {
-            var fileUri = inputs["url"];
-            var pages = inputs["pages"];
+        public static async Task<Extract> CallOcrCustomModel([ActivityTrigger] Document doc, ILogger log)
+        {            
 
-            log.LogInformation($"Calling custom model with {fileUri} model id {modelId}.");
+            log.LogInformation($"Calling custom model with {doc.url} model id {modelId}.");
             
             var recognizerClient = GetFormRecognizerClient();
         
             var options = new RecognizeCustomFormsOptions() { IncludeFieldElements=true };
-            options.Pages.Add(pages);
+            options.Pages.Add(doc.pages);
             
-            RecognizeCustomFormsOperation operation = await recognizerClient.StartRecognizeCustomFormsFromUriAsync(modelId, new Uri(fileUri), options);
+            RecognizeCustomFormsOperation operation = await recognizerClient.StartRecognizeCustomFormsFromUriAsync(modelId, new Uri(doc.url), options);
             Response<RecognizedFormCollection> operationResponse = await operation.WaitForCompletionAsync();
             RecognizedFormCollection forms = operationResponse.Value;
             
