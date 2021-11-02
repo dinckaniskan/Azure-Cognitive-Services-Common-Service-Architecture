@@ -1,0 +1,2 @@
+GET https://deseaifr.cognitiveservices.azure.com/formrecognizer/v2.1/custom/models?op=full HTTP/1.1
+Ocp-Apim-Subscription-Key: 5a8232cbeaae416e84084783f9b5fdb8

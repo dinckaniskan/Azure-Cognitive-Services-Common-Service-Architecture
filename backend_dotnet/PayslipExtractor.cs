@@ -13,21 +13,22 @@ namespace Contoso.Example
 {
     public static class PayslipExtractor
     {
+        // public static ILogger log = new ILogger;
+
         [FunctionName("PayslipExtractorWorkflow")]
         public static async Task<string> RunOrchestrator(
-            [OrchestrationTrigger] IDurableOrchestrationContext context)
+            [OrchestrationTrigger] IDurableOrchestrationContext context,
+            ILogger log)            
         {
-            // var outputs = new List<string>();
 
-            // // Replace "hello" with the name of your Durable Activity Function.
-            // outputs.Add(await context.CallActivityAsync<string>("CallFormRecognizer", "Tokyo"));
-            // outputs.Add(await context.CallActivityAsync<string>("CallFormRecognizer", "Seattle"));
-            // outputs.Add(await context.CallActivityAsync<string>("CallFormRecognizer", "London"));
+            var inputs = context.GetInput<Dictionary<string,string>>();
+ 
+            var extract = await context.CallActivityAsync<Extract>("CallOcrCustomModel", inputs);
+            var validated_extract = await context.CallActivityAsync<Extract>("ValidateExtract", extract);
 
-            var x = await context.CallActivityAsync<string>("CallOcrStandardModel", "Tokyo");
-
-            // returns ["Hello Tokyo!", "Hello Seattle!", "Hello London!"]
-            return x;
+            log.LogInformation(validated_extract.AsJson());
+            
+            return validated_extract.AsJson();
         }
 
 
@@ -39,17 +40,19 @@ namespace Contoso.Example
             ILogger log)
         {
 
+            // Collect input values from request
             string body = await req.Content.ReadAsStringAsync();
-            dynamic b = JObject.Parse(body);
-            
-            string url = b.url;
-            string pages = b.pages;
-
-            log.LogInformation(url);
-            log.LogInformation(pages);
+            dynamic inputAttributes = JObject.Parse(body);
+ 
+            // Parse dictionary of inputs
+            Dictionary<string,string> inputs = new Dictionary<string,string>() {
+                {"url", (string)inputAttributes.url},
+                {"pages", (string)inputAttributes.pages}
+            };
+                
 
             // Function input comes from the request content.
-            string instanceId = await starter.StartNewAsync("PayslipExtractor", null);
+            string instanceId = await starter.StartNewAsync("PayslipExtractorWorkflow", inputs);
 
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
 
