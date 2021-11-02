@@ -14,8 +14,17 @@ namespace Contoso.Example {
     }
 
     public class Document {
+        public Document() {
+        }
+
+        public Document(string _url, int _pages) {
+            this.url = _url;
+            this.pages = _pages;
+        }
+
+
         public string url { get; set; }
-        public string pages { get; set; }
+        public int pages { get; set; }
     }
 
 

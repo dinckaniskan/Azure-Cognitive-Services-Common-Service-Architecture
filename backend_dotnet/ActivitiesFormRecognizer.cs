@@ -42,7 +42,7 @@ namespace Contoso.Example
             var recognizerClient = GetFormRecognizerClient();
         
             var options = new RecognizeCustomFormsOptions() { IncludeFieldElements=true };
-            options.Pages.Add(doc.pages);
+            options.Pages.Add(doc.pages.ToString());
             
             RecognizeCustomFormsOperation operation = await recognizerClient.StartRecognizeCustomFormsFromUriAsync(modelId, new Uri(doc.url), options);
             Response<RecognizedFormCollection> operationResponse = await operation.WaitForCompletionAsync();

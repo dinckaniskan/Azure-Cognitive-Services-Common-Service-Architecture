@@ -2,6 +2,10 @@ POST http://127.0.0.1:7071/api/PayslipExtractor HTTP/1.1
 content-type: application/json
 
 {
-    "url": "https://deseaisq.blob.core.windows.net/filedrop/upside_down.pdf?sp=r&st=2021-10-19T22:53:46Z&se=2022-10-20T06:53:46Z&spr=https&sv=2020-08-04&sr=c&sig=O%2Fypezh%2BvnVbaOEiSK1UtLEb9dyjsDecSOvg29VUdEA%3D",
-    "pages": 1
+    "documents": [
+        {
+            "url": "https://deseaisq.blob.core.windows.net/filedrop/upside_down.pdf?sp=r&st=2021-10-19T22:53:46Z&se=2022-10-20T06:53:46Z&spr=https&sv=2020-08-04&sr=c&sig=O%2Fypezh%2BvnVbaOEiSK1UtLEb9dyjsDecSOvg29VUdEA%3D",
+            "pages": 1
+        }
+    ]
 }

@@ -28,10 +28,22 @@ namespace Contoso.Example
             var results = new ResultsCollection();
 
             foreach(Document doc in inputs.Documents) {
-                var extract = await context.CallActivityAsync<Extract>("CallOcrCustomModel", doc);
-                var validated_extract = await context.CallActivityAsync<Extract>("ValidateExtract", extract);
 
-                results.Extracts.Add(validated_extract);
+                if(doc.pages > 1) {
+                    for (int p=1; p <= doc.pages; p++) {
+                        var extract = await context.CallActivityAsync<Extract>("CallOcrCustomModel", new Document(doc.url, p));
+                        var validated_extract = await context.CallActivityAsync<Extract>("ValidateExtract", extract);
+
+                        results.Extracts.Add(validated_extract);
+                    }
+                }
+                else {
+                    var extract = await context.CallActivityAsync<Extract>("CallOcrCustomModel", doc);
+                    var validated_extract = await context.CallActivityAsync<Extract>("ValidateExtract", extract);
+
+                    results.Extracts.Add(validated_extract);
+                }
+                
             }
                         
             return results.AsJson();
