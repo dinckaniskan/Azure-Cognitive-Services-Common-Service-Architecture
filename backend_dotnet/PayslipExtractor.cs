@@ -1,16 +1,14 @@
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using System;
 
 using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Globalization;
+using System.Threading;
 
 namespace Contoso.Example
 {
@@ -57,7 +55,9 @@ namespace Contoso.Example
             [DurableClient] IDurableOrchestrationClient starter,
             ILogger log)
         {
-
+            // Change the culuture of the thread currently running
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-AU");
+            
             // Collect input values from request
             string body = await req.Content.ReadAsStringAsync();            
             

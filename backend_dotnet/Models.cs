@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace Contoso.Example {
 
@@ -124,7 +125,7 @@ namespace Contoso.Example {
             this.rawPeriodFrom = periodFrom;
             
             DateTime parsed;
-            var result = DateTime.TryParse(periodFrom, out parsed);
+            var result = DateTime.TryParseExact(periodFrom, "dd/MM/yyyy", new CultureInfo("en-AU"), DateTimeStyles.None, out parsed);
             if(result)
                 this._periodFrom = parsed;
         }
@@ -133,7 +134,7 @@ namespace Contoso.Example {
             this.rawPeriodTo = periodTo;
             
             DateTime parsed;
-            var result = DateTime.TryParse(periodTo, out parsed);
+            var result = DateTime.TryParseExact(periodTo, "dd/MM/yyyy", new CultureInfo("en-AU"), DateTimeStyles.None, out parsed);
             if(result)
                 this._periodTo = parsed;
         }

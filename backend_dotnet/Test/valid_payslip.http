@@ -1,4 +1,4 @@
-POST http://127.0.0.1:7071/api/PayslipExtractor HTTP/1.1
+POST https://ocrdotnet.azurewebsites.net/api/PayslipExtractor HTTP/1.1
 content-type: application/json
 
 {

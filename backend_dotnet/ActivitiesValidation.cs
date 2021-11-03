@@ -29,12 +29,12 @@ namespace Contoso.Example
 
             if (!IsValidAbn(extract.ABN) && isValid) {
                 isValid = false;
-                outcome = "invlid ABN";
+                outcome = "invalid abn";
             }
 
             if (!IsValidPeriod(extract.PeriodFrom, extract.PeriodTo) && isValid) {
                 isValid = false;
-                outcome = "invlid period";
+                outcome = "invalid period";
             }
             
             extract.ExtactResult = outcome;
