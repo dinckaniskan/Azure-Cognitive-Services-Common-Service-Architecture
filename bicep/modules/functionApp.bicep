@@ -1,3 +1,4 @@
+//Thanks: https://chriskingdon.com/2021/07/02/bicep-tips-tricks-1/
 param location string
 param functionAppName string
 param storageAccountName string = 'svcfnstg${uniqueString(resourceGroup().id)}'
@@ -27,7 +28,10 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
   name: functionAppName
   location: location
   kind: 'functionapp'
-  properties: {
+  identity:{
+    type:'SystemAssigned'    
+  }
+properties: {
     httpsOnly: true
     serverFarmId: hostingPlanId
     clientAffinityEnabled: true
@@ -54,10 +58,10 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
-        // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish
+        // WEBSITE_RUN_FROM_PACKAGE will be set by functionapp publish
       ]
     }
   }
 }
 
-// output functionAppHostName string = functionApp.properties.defaultHostName
+output systemMsiPrincipalId string = functionApp.identity.principalId

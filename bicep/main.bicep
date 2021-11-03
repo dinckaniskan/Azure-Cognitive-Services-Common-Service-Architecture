@@ -15,6 +15,7 @@ param location string = resourceGroup().location
 param storageAccountName string = 'svcstg${uniqueString(resourceGroup().id)}'
 param appServiceAppName string = 'svcapp${uniqueString(resourceGroup().id)}'
 param functionAppName string = 'svcfn${uniqueString(resourceGroup().id)}'
+param keyVaultAppName string = 'svckv${uniqueString(resourceGroup().id)}'
 @allowed([
   'nonprod'
   'prod'
@@ -50,5 +51,16 @@ module storageDrop 'modules/storageAccount.bicep' = {
 
   }
 }
+
+module keyVault 'modules/keyVault.bicep' = {
+  name: keyVaultAppName
+  params:{
+    location: location
+    name: keyVaultAppName
+    principalId: functionApp.outputs.systemMsiPrincipalId
+  }
+}
+
+
 
 output appServiceAppName string = appService.outputs.appServiceAppHostName
