@@ -2,7 +2,7 @@ name: Azure build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main-disabled ]
 
 jobs:
 
