@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    #- uses: actions/checkout@v2
       # ubuntu Az CLI installation -  based on https://github.com/Azure/login#sample-workflow-that-uses-azure-login-action-using-oidc-to-run-az-cli-linux
     - name: Install CLI-beta
       run: |
