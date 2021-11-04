@@ -1,5 +1,5 @@
 param name string
-param location string
+param location string = resourceGroup().location
 param  principalId string
 param tenantId string = subscription().tenantId
 
