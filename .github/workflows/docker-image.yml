@@ -33,14 +33,17 @@ jobs:
         client-id: ${{ secrets.AZURE_CLIENTID }}
         tenant-id: ${{ secrets.AZURE_TENANTID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
-
-    - name: 'Run az commands'
-      run: |
-        pwd
         
     - uses: actions/checkout@v2
       with:
         submodules: true
+
+    - name: 'deploy bicep'
+      run: |
+        cd bicep
+        ./deploy.sh
+
+
     - name: 'Run az commands'
       run: |
         az account show
