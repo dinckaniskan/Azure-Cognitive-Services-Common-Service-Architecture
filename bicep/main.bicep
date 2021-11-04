@@ -17,7 +17,7 @@ param storageAccountName string = 'svcstg${baseName}'
 param appServiceAppName string = 'svcapp${baseName}'
 param functionAppName string = 'svcfn${baseName}'
 param keyVaultAppName string = 'svckv${baseName}'
-param formRecognizerName string = 'formrecog${baseName}'
+param formRecognizerName string = 'formrecog2${baseName}'
 param appInsightsName string = 'appinsight${baseName}'
 
 @allowed([
