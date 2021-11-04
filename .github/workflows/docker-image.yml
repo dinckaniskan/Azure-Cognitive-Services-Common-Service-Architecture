@@ -38,6 +38,8 @@ jobs:
         pwd
         
     - uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: 'Run az commands'
       run: |
         az account show
