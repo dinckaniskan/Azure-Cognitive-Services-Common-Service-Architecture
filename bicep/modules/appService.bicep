@@ -7,6 +7,8 @@ param appServiceAppName string
 ])
 param environmentType string
 
+param appSettings array
+
 var appServicePlanName = '${appServiceAppName}plan'
 var appServicePlanSkuName = (environmentType == 'prod') ? 'P2_v3' : 'F1'
 var appServicePlanTierName = (environmentType == 'prod') ? 'PremiumV3' : 'Free'
@@ -26,7 +28,11 @@ resource appServiceApp 'Microsoft.Web/sites@2020-06-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
+    siteConfig: {
+      appSettings: appSettings
+    }
   }
+  
 }
 output appServiceAppHostName string = appServiceApp.properties.defaultHostName
 output appServicePlanId string = appServicePlan.id

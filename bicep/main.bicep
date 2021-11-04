@@ -12,10 +12,14 @@
 */
 
 param location string = resourceGroup().location
-param storageAccountName string = 'svcstg${uniqueString(resourceGroup().id)}'
-param appServiceAppName string = 'svcapp${uniqueString(resourceGroup().id)}'
-param functionAppName string = 'svcfn${uniqueString(resourceGroup().id)}'
-param keyVaultAppName string = 'svckv${uniqueString(resourceGroup().id)}'
+param baseName string = uniqueString(resourceGroup().id)
+
+param storageAccountName string = 'svcstg${baseName}'
+param appServiceAppName string = 'svcapp${baseName}'
+param functionAppName string = 'svcfn${baseName}'
+param keyVaultAppName string = 'svckv${baseName}'
+param formRecognizerName string = 'formrecog${baseName}'
+
 @allowed([
   'nonprod'
   'prod'
@@ -28,6 +32,12 @@ module appService 'modules/appService.bicep' = {
     appServiceAppName: appServiceAppName
     location: location
     environmentType: environmentType
+    appSettings:  [
+      {
+        name: 'cognitiveKey'
+        value: formRecognizer.outputs.cognitivekey1
+      }
+    ]
   }
 }
 
@@ -48,7 +58,11 @@ module storageDrop 'modules/storageAccount.bicep' = {
     storageAccountName: storageAccountName
     location: location
     environmentType: environmentType
-
+    containersList: [
+      'drop'
+      'example1'
+      'example2'
+    ]
   }
 }
 
@@ -61,6 +75,14 @@ module keyVault 'modules/keyVault.bicep' = {
   }
 }
 
-
+module formRecognizer 'modules/formRecognizer.bicep' = {
+  name: formRecognizerName
+  params:{
+    environmentType: environmentType
+    location: location
+    name: formRecognizerName
+  }
+}
 
 output appServiceAppName string = appService.outputs.appServiceAppHostName
+output key string = formRecognizer.outputs.cognitivekey1
