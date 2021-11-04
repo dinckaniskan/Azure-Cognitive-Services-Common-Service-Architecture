@@ -11,7 +11,6 @@
           az deployment group create -g MyResourceGroup --template-file filename.bicep --parameters baseName=dev34
 */
 
-param location string = resourceGroup().location
 param baseName string = uniqueString(resourceGroup().id)
 
 param storageAccountName string = 'svcstg${baseName}'
@@ -19,6 +18,7 @@ param appServiceAppName string = 'svcapp${baseName}'
 param functionAppName string = 'svcfn${baseName}'
 param keyVaultAppName string = 'svckv${baseName}'
 param formRecognizerName string = 'formrecog${baseName}'
+param appInsightsName string = 'appinsight${baseName}'
 
 @allowed([
   'nonprod'
@@ -26,16 +26,38 @@ param formRecognizerName string = 'formrecog${baseName}'
 ])
 param environmentType string
 
+module appInsights 'modules/appInsights.bicep' = {
+  name: appInsightsName
+  params:{
+    name: appInsightsName
+  }
+}
+
 module appService 'modules/appService.bicep' = {
   name: 'appService'
   params: {
     appServiceAppName: appServiceAppName
-    location: location
     environmentType: environmentType
     appSettings:  [
       {
-        name: 'cognitiveKey'
+        name: 'formrecognizer_key'
         value: formRecognizer.outputs.cognitivekey1
+      }
+      {
+        name: 'formrecognizer_endpoint'
+        value: formRecognizer.outputs.endpoint
+      }
+      {
+        name: 'formrecognizer_model_id'
+        value: 'payslip'
+      }
+      {
+        name: 'deseaisq_STORAGE'
+        value: 'TO BE ADDED'
+      }
+      {
+        name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: appInsights.outputs.key
       }
     ]
   }
@@ -45,10 +67,19 @@ module functionApp 'modules/functionApp.bicep' = {
   name: 'functionApp'
   params: {
     functionAppName: functionAppName
-    location: location
     hostingPlanId: appService.outputs.appServicePlanId
     storageAccountName: storageAccountName
     environmentType: environmentType
+    appSettings: [
+      {
+        name: 'formrecognizer_model_id'
+        value: 'payslip'
+      }
+      {
+        name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: appInsights.outputs.key
+      }
+    ]
   }
 }
 
@@ -56,7 +87,6 @@ module storageDrop 'modules/storageAccount.bicep' = {
   name: 'storageDrop'
   params:{
     storageAccountName: storageAccountName
-    location: location
     environmentType: environmentType
     containersList: [
       'drop'
@@ -69,7 +99,6 @@ module storageDrop 'modules/storageAccount.bicep' = {
 module keyVault 'modules/keyVault.bicep' = {
   name: keyVaultAppName
   params:{
-    location: location
     name: keyVaultAppName
     principalId: functionApp.outputs.systemMsiPrincipalId
   }
@@ -79,7 +108,6 @@ module formRecognizer 'modules/formRecognizer.bicep' = {
   name: formRecognizerName
   params:{
     environmentType: environmentType
-    location: location
     name: formRecognizerName
   }
 }
