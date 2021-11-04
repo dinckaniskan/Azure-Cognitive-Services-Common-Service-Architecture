@@ -1,11 +1,12 @@
 name: Azure build
-
+permissions:
+  id-token: write
+  
 on:
   push:
     branches: [ main ]
 
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
