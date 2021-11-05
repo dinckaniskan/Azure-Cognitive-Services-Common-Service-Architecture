@@ -1,4 +1,4 @@
-# Azure-Cognitive-Services-workflow-with-Durable-Functions
+# Azure-Cognitive-Services - Common Service Architecture 
 Azure Cognitive Services workflow with Durable Functions
 
 Demonstration code to show how to use Azure Durable funtions either from an HTTP request or triggered from an event or service bus topic
