@@ -1,0 +1,19 @@
+{
+    "folders": [
+      {
+        "path": "backend_dotnet"
+      },
+      {
+        "path": "app"
+      },
+      {
+        "path": ".devcontainer"
+      },
+      {
+        "path": "bicep"
+      }
+    ],
+    "settings": {
+      "debug.internalConsoleOptions": "neverOpen"
+    }
+  }
