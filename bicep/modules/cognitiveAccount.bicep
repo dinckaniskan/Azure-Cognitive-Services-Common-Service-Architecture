@@ -23,7 +23,7 @@ param name string
   ])
 param kind string
 
-
+var restoreSoftDeleted = false
 
 @allowed([
   'test'
@@ -42,7 +42,7 @@ resource cogService 'Microsoft.CognitiveServices/accounts@2021-04-30' = {
     name: skuName
   }
   properties:{
-    restore: true
+    restore: restoreSoftDeleted
   }
 
 }
