@@ -17,14 +17,20 @@ param storageAccountName string = 'svcstg${baseName}'
 param appServiceAppName string = 'svcapp${baseName}'
 param functionAppName string = 'svcfn${baseName}'
 param keyVaultAppName string = 'svckv${baseName}'
-param formRecognizerName string = 'formrecog2${baseName}'
+param formRecognizerName string = 'formrecog3${baseName}'
+param aciFormRecognizerName string = 'formrecog3${baseName}aci'
+param computerVisionName string = 'computervision2${baseName}'
+param aciComputerVisionName string = 'computervision2${baseName}aci'
+
 param appInsightsName string = 'appinsight${baseName}'
 
 @allowed([
+  'test'
   'nonprod'
   'prod'
 ])
 param environmentType string
+param deployAci bool = false
 
 module appInsights 'modules/appInsights.bicep' = {
   name: appInsightsName
@@ -36,7 +42,8 @@ module appInsights 'modules/appInsights.bicep' = {
 module appService 'modules/appService.bicep' = {
   name: 'appService'
   params: {
-    appServiceAppName: appServiceAppName
+    name: appServiceAppName
+    vnetName: 'vnet${baseName}'
     environmentType: environmentType
     appSettings:  [
       {
@@ -104,11 +111,43 @@ module keyVault 'modules/keyVault.bicep' = {
   }
 }
 
-module formRecognizer 'modules/formRecognizer.bicep' = {
+module formRecognizer 'modules/cognitiveAccount.bicep' = {
   name: formRecognizerName
   params:{
     environmentType: environmentType
     name: formRecognizerName
+    kind: 'FormRecognizer'
+  }
+}
+
+module aciform 'modules/aciCognitive.bicep' =  if (deployAci) {
+  name: aciFormRecognizerName
+  params: {
+    apiKey: formRecognizer.outputs.cognitivekey1
+    billingEndpoint: formRecognizer.outputs.endpoint
+    name: aciFormRecognizerName
+    environmentType: environmentType
+    image: 'mcr.microsoft.com/azure-cognitive-services/vision/read:3.2'
+  }
+}
+
+module computerVision 'modules/cognitiveAccount.bicep' = {
+  name: computerVisionName
+  params:{
+    environmentType: environmentType
+    name: computerVisionName
+    kind: 'ComputerVision'
+  }
+}
+
+module aci 'modules/aciCognitive.bicep' = if (deployAci) {
+  name: aciComputerVisionName
+  params:{
+    name: aciComputerVisionName
+    apiKey: computerVision.outputs.cognitivekey1
+    billingEndpoint: computerVision.outputs.endpoint
+    environmentType: environmentType
+    image:'mcr.microsoft.com/azure-cognitive-services/vision/read:3.2'
   }
 }
 

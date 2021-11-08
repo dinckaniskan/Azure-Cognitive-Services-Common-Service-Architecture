@@ -5,6 +5,7 @@ param storageAccountName string = 'svcfnstg${uniqueString(resourceGroup().id)}'
 param appSettings array 
 
 @allowed([
+  'test'
   'nonprod'
   'prod'
 ])

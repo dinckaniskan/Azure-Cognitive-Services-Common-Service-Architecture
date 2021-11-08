@@ -2,6 +2,7 @@ param location string = resourceGroup().location
 param storageAccountName string
 
 @allowed([
+  'test'
   'nonprod'
   'prod'
 ])
