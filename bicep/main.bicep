@@ -110,7 +110,7 @@ module keyVault 'modules/keyVault.bicep' = {
     principalId: functionApp.outputs.systemMsiPrincipalId
     secretsObject: [
       {
-        name: 'formrecognizer_key'
+        name: 'formrecognizerkey'
         value: formRecognizer.outputs.cognitivekey1      
       }
     ]

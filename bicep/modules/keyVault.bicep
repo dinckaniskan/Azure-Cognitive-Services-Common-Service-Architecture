@@ -3,7 +3,7 @@ param location string = resourceGroup().location
 param  principalId string
 param tenantId string = subscription().tenantId
 
-@description('Specifies all secrets {"secretName":"","secretValue":""} ')
+@description('Specifies all secrets')
 param secretsObject array
 
 
@@ -34,12 +34,21 @@ resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
   }
 }
 
+
+// resource secrets 'Microsoft.KeyVault/vaults/secrets@2019-09-01' =  {
+//   name:  '${keyVault.name}/test'
+//   properties: {
+//     value: 'testvalue'
+//   }
+// }
+
 resource secrets 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = [for secret in secretsObject: {
   name:  '${keyVault.name}/${secret.name}'
   properties: {
     value: secret.value
   }
 }]
+
 
 output keyVaultName string = keyVault.name
 output keyVaultId string = keyVault.id
