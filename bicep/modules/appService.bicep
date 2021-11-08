@@ -16,7 +16,7 @@ param subnetName string = '${name}sn'
 param subnetAddressPrefix string = '10.0.0.0/24'
 
 var appServicePlanName = '${name}plan'
-var appServicePlanSkuName = (environmentType == 'prod') ? 'P2_v3' : (environmentType == 'test') ? 'S1' : 'F1'
+var appServicePlanSkuName = (environmentType == 'prod') ? 'P2_v3' : (environmentType == 'test') ? 'P1v3' : 'F1'
 var appServicePlanTierName = (environmentType == 'prod') ? 'PremiumV3' : (environmentType == 'test') ? 'Standard' : 'Free'
 
 
@@ -44,7 +44,6 @@ resource appServiceApp 'Microsoft.Web/sites@2020-06-01' = {
       appSettings: appSettings
     }
   }
-  
 }
 
 resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = if (vnetName != '') {
