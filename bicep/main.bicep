@@ -26,7 +26,7 @@ param appInsightsName string = 'appinsight${baseName}'
 
 @allowed([
   'test'
-  'nonprod'
+  'dev'
   'prod'
 ])
 param environmentType string

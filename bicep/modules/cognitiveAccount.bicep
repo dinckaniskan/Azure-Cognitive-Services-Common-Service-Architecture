@@ -27,7 +27,7 @@ param kind string
 
 @allowed([
   'test'
-  'nonprod'
+  'dev'
   'prod'
 ])
 param environmentType string

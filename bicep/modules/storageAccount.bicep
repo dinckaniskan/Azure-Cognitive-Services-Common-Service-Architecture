@@ -3,7 +3,7 @@ param storageAccountName string
 
 @allowed([
   'test'
-  'nonprod'
+  'dev'
   'prod'
 ])
 param environmentType string

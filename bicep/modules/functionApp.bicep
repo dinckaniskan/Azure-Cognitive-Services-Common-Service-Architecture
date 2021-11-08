@@ -6,7 +6,7 @@ param appSettings array
 
 @allowed([
   'test'
-  'nonprod'
+  'dev'
   'prod'
 ])
 param environmentType string

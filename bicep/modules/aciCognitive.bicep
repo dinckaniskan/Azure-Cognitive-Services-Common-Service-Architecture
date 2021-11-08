@@ -8,7 +8,7 @@ param port int = 5000
 
 @allowed([
   'test'
-  'nonprod'
+  'dev'
   'prod'
 ])
 param environmentType string
