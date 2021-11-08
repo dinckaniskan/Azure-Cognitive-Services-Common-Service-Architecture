@@ -34,10 +34,8 @@ resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
   }
 }
 
-
-resource secrets 'Microsoft.KeyVault/vaults/secrets@2021-04-01-preview' = [for secret in secretsObject: {
-  name: secret.name
-  parent: keyVault
+resource secrets 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = [for secret in secretsObject: {
+  name:  '${keyVault.name}/${secret.name}'
   properties: {
     value: secret.value
   }
