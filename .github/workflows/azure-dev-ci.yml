@@ -5,7 +5,7 @@ permissions:
   
 on:
   push:
-    branches: [ main ]
+    branches: [ gitstua/bicepaci ]
 
 jobs:
   build:
@@ -41,9 +41,8 @@ jobs:
     - name: 'deploy bicep'
       run: |
         cd bicep
-        ./deploy.sh
-
-
+        az deployment group create --template-file ./main.bicep --resource-group 'CognitiveCSA-ci' --parameters environmentType=dev
+        
     - name: 'Run az commands'
       run: |
         az account show
