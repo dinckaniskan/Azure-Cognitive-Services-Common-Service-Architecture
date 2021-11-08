@@ -32,7 +32,8 @@ var restoreSoftDeleted = false
 ])
 param environmentType string
 
-var skuName = (environmentType == 'prod') ? 'S0' : 'F0'
+//TODO: handle if non prod we use F1 (note: only one free per subscription)
+var skuName = (environmentType == 'prod') ? 'S0' : 'S0'
 
 resource cogService 'Microsoft.CognitiveServices/accounts@2021-04-30' = {
   name: name
