@@ -114,7 +114,7 @@ module keyVault 'modules/keyVault.bicep' = {
 module formRecognizer 'modules/cognitiveAccount.bicep' = {
   name: formRecognizerName
   params:{
-    environmentType: environmentType
+    skuName: 'S0'
     name: formRecognizerName
     kind: 'FormRecognizer'
   }
@@ -134,7 +134,7 @@ module aciform 'modules/aciCognitive.bicep' =  if (deployAci) {
 module computerVision 'modules/cognitiveAccount.bicep' = {
   name: computerVisionName
   params:{
-    environmentType: environmentType
+    skuName: 'S1'
     name: computerVisionName
     kind: 'ComputerVision'
   }

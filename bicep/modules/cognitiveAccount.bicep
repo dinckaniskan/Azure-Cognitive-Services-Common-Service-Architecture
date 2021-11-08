@@ -25,15 +25,15 @@ param kind string
 
 var restoreSoftDeleted = false
 
-@allowed([
-  'test'
-  'dev'
-  'prod'
-])
-param environmentType string
+// @allowed([
+//   'test'
+//   'dev'
+//   'prod'
+// ])
+// param environmentType string
 
 //TODO: handle if non prod we use F1 (note: only one free per subscription)
-var skuName = (environmentType == 'prod') ? 'S0' : 'S0'
+param skuName string = 'F1'
 
 resource cogService 'Microsoft.CognitiveServices/accounts@2021-04-30' = {
   name: name
