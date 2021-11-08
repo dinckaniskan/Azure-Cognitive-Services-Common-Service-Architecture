@@ -41,7 +41,7 @@ jobs:
     - name: 'deploy bicep'
       run: |
         cd bicep
-        az deployment group create --template-file ./main.bicep --resource-group 'CognitiveCSA-ci' --parameters environmentType=dev
+        az deployment group create --template-file ./main.bicep --resource-group 'CognitiveCSA-ci' --parameters environmentType=test
         
     - name: 'Run az commands'
       run: |
