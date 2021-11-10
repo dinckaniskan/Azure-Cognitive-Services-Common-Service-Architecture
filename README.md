@@ -8,6 +8,12 @@ Whilst the service samples here are related to Australian🦘 specific payslips 
 # Service definitions
 Services may be defines as follows. (only Payslip implemented here yet)
 ![diagram of sample service](docs/Common%20Service%20Pattern.svg)
+
+
+# Architecture sketch
+![diagram of architecture](docs/architecture-sketch.drawio.svg)
+
+
 ## Payslip entity extractor
 Extracts specified fields from the specified blob passed to the service
 
