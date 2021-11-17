@@ -4,6 +4,12 @@
         "path": "backend_dotnet"
       },
       {
+<<<<<<< HEAD
+=======
+        "path": "app"
+      },
+      {
+>>>>>>> 91659d1 (new)
         "path": ".devcontainer"
       },
       {
