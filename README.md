@@ -10,6 +10,18 @@ Services may be defines as follows. (only Payslip implemented here yet)
 ![diagram of sample service](docs/Common%20Service%20Pattern.svg)
 
 
+**Congnitive Services** offer AI models to process data such as OCR. Secure acccess to Cognitive services is via private networking using Private Link. The 
+
+**App service** provides hosting for the Azure Functions and the sample application.
+Running Functions hosted within the App Service allows outbound traffic to go to private networking via Regional VNet integration. Traffic to the Azure functions can come from private networking using Private Link.
+
+Secrets to access the Cognitive service are stored in Azure KeyVault.
+
+**KeyVault** Allows securely managing, rotating and auditing the use of secrets such as keys and certificates in the solution.
+
+**Azure Storage**
+Encryption in transit and a rest protects the data. Data access to be limited to via Private Link 
+
 # Architecture sketch
 ![diagram of architecture](docs/architecture-sketch.drawio.svg)
 
